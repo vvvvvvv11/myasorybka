@@ -1,0 +1,18 @@
+{
+  "functions": {
+    "api/webhook.php": {
+      "runtime": "vercel-php@0.6.0"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/webhook",
+      "dest": "/api/webhook.php",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index3.html"
+    }
+  ]
+}
