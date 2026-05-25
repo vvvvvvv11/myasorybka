@@ -2,7 +2,7 @@
 // api/webhook.php
 
 // Токен вашего бота
-$botToken = '7755147962:AAH8D-92Pii5wHlXq71uhk9FFSRN1BwaRrw';
+$botToken = '7755147962:AAGGFn1ZVautX47ul84VBm5fUVwUAF3qRpk';
 $apiUrl = "https://api.telegram.org/bot{$botToken}/";
 
 // Получаем входящее обновление от Telegram
