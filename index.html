@@ -42,8 +42,10 @@
       cursor: pointer;
       font-size: 18px;
       position: relative;
+      transition: all 0.2s;
     }
 
+    .btn-icon:hover { background: #e8e8e8; }
     .btn-icon.cart { background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%); color: white; }
     .btn-icon:active { transform: scale(0.95); }
 
@@ -61,6 +63,12 @@
       justify-content: center;
       font-size: 11px;
       font-weight: 700;
+      animation: badgePulse 2s infinite;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
 
     .content {
@@ -76,7 +84,7 @@
       border-radius: 0 0 16px 16px;
     }
 
-    .hero h2 { font-size: 24px; margin-bottom: 8px; line-height: 1.2; }
+    .hero h2 { font-size: 24px; margin-bottom: 8px; line-height: 1.2; font-weight: 900; }
     .hero p { font-size: 14px; opacity: 0.9; }
 
     .search-box {
@@ -95,6 +103,13 @@
       border-radius: 10px;
       font-size: 14px;
       font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #8b1a1a;
+      box-shadow: 0 0 8px rgba(139, 26, 26, 0.15);
     }
 
     .categories {
@@ -120,12 +135,16 @@
       font-weight: 600;
       white-space: nowrap;
       transition: all 0.2s;
+      color: #666;
     }
+
+    .cat-btn:hover { border-color: #8b1a1a; color: #8b1a1a; }
 
     .cat-btn.active {
       background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
       color: white;
       border-color: transparent;
+      box-shadow: 0 4px 12px rgba(139, 26, 26, 0.2);
     }
 
     .cat-btn:active { transform: scale(0.95); }
@@ -138,6 +157,14 @@
       padding-bottom: 100px;
     }
 
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        padding: 16px;
+      }
+    }
+
     .product {
       background: white;
       border-radius: 12px;
@@ -147,6 +174,13 @@
       flex-direction: column;
       cursor: pointer;
       transition: all 0.2s;
+      position: relative;
+    }
+
+    .product:hover {
+      transform: translateY(-4px);
+      border-color: #8b1a1a;
+      box-shadow: 0 8px 16px rgba(139, 26, 26, 0.12);
     }
 
     .product:active { transform: scale(0.98); }
@@ -165,23 +199,11 @@
       object-fit: cover;
     }
 
-    .badge-hit {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: linear-gradient(135deg, #e8350a 0%, #ff4d2b 100%);
-      color: white;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
+    .badge-hit,
     .badge-new {
       position: absolute;
       top: 8px;
       right: 8px;
-      background: linear-gradient(135deg, #1a7a3a 0%, #2ba054 100%);
       color: white;
       padding: 4px 8px;
       border-radius: 6px;
@@ -189,153 +211,152 @@
       font-weight: 700;
     }
 
-    .product-info {
-      padding: 10px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+    .badge-hit {
+      background: linear-gradient(135deg, #e8350a 0%, #ff4d2b 100%);
     }
 
-    .product-name { font-weight: 700; font-size: 13px; line-height: 1.3; margin-bottom: 4px; }
-    .product-desc { font-size: 11px; color: #999; margin-bottom: 6px; }
+    .badge-new {
+      background: linear-gradient(135deg, #4ecdc4 0%, #44a5a8 100%);
+    }
+
+    .product-info {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-name {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .product-desc {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      flex: 1;
+    }
 
     .product-rating {
       font-size: 11px;
-      color: #666;
-      margin-bottom: 6px;
+      color: #ccc;
+      margin-bottom: 8px;
     }
 
-    .stars { color: #ffc107; }
+    .stars {
+      color: #e8350a;
+    }
 
     .product-footer {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      margin-top: auto;
-      border-top: 1px solid #e8e8e8;
-      padding-top: 8px;
+      align-items: center;
+      gap: 8px;
     }
 
     .price {
-      font-size: 14px;
       font-weight: 900;
+      font-size: 14px;
       color: #8b1a1a;
     }
 
     .add-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      border: none;
-      background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 700;
-      transition: all 0.2s;
-    }
-
-    .add-btn:active { transform: scale(0.9); }
-    .add-btn.in-cart { background: #fff3f3; color: #8b1a1a; }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      padding: 6px 12px;
+      border: 1px solid #e8e8e8;
       background: white;
-      border-top: 1px solid #e8e8e8;
-      display: flex;
-      flex-shrink: 0;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
-    }
-
-    .nav-btn {
-      flex: 1;
-      padding: 12px 0;
-      border: none;
-      background: none;
+      color: #8b1a1a;
+      border-radius: 8px;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #999;
+      font-weight: 700;
+      font-size: 14px;
       transition: all 0.2s;
     }
 
-    .nav-btn.active {
+    .add-btn:hover {
+      background: #f5f5f5;
+      border-color: #8b1a1a;
       color: #8b1a1a;
     }
 
-    .nav-icon { font-size: 20px; }
+    .add-btn.in-cart {
+      background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
+      color: white;
+      border-color: transparent;
+    }
 
     .modal {
-      display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 300;
-      align-items: flex-end;
-      animation: slideIn 0.3s ease-out;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
     }
 
     .modal.open { display: flex; }
 
-    @keyframes slideIn {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .modal-content {
-      width: 100%;
       background: white;
       border-radius: 20px 20px 0 0;
       padding: 20px 16px;
-      padding-bottom: 40px;
-      max-height: 90vh;
+      max-height: 80vh;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      animation: slideUp 0.3s ease;
+      margin-top: auto;
     }
 
-    .modal-header {
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-content h3 {
+      color: #1a1a1a;
       font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
-    .close-btn {
-      background: none;
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
       border: none;
-      font-size: 24px;
+      background: #f5f5f5;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 18px;
+      color: #8b1a1a;
     }
 
     .cart-item {
       display: flex;
-      gap: 10px;
-      padding: 10px;
-      background: #f5f5f5;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f7f5;
+      border-radius: 12px;
+      margin-bottom: 8px;
       align-items: center;
+      border: 1px solid #e8e8e8;
     }
 
     .cart-item-img {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border-radius: 8px;
-      background: white;
-      flex-shrink: 0;
       overflow: hidden;
+      flex-shrink: 0;
     }
 
     .cart-item-img img {
@@ -346,82 +367,113 @@
 
     .cart-item-info {
       flex: 1;
-      min-width: 0;
     }
 
-    .cart-item-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-    .cart-item-price { font-size: 12px; color: #999; }
+    .cart-item-name {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+    }
+
+    .cart-item-price {
+      font-size: 12px;
+      color: #8b1a1a;
+      font-weight: 700;
+    }
 
     .qty-control {
       display: flex;
+      gap: 8px;
       align-items: center;
-      gap: 4px;
-      background: white;
-      border-radius: 6px;
-      border: 1px solid #e8e8e8;
-      padding: 2px;
     }
 
     .qty-btn {
-      width: 24px;
-      height: 24px;
-      border: none;
-      background: transparent;
+      width: 28px;
+      height: 28px;
+      border: 1px solid #e8e8e8;
+      background: white;
       color: #8b1a1a;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .qty-btn:hover {
+      background: #f5f5f5;
+      border-color: #8b1a1a;
+    }
+
+    .qty-val {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 40px 20px;
+      color: #1a1a1a;
+    }
+
+    .empty-icon {
+      font-size: 60px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      color: #999;
       font-size: 14px;
     }
 
-    .qty-val { min-width: 18px; text-align: center; font-size: 12px; font-weight: 600; }
-
     .summary {
-      background: #f5f5f5;
-      border-radius: 10px;
-      padding: 12px;
-      margin: 16px 0;
+      background: #f8f7f5;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      border: 1px solid #e8e8e8;
     }
 
     .summary-row {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 12px;
       font-size: 13px;
-      margin-bottom: 6px;
+      color: #666;
     }
 
     .summary-row:last-child {
+      margin-bottom: 0;
       border-top: 1px solid #e8e8e8;
-      padding-top: 6px;
-      margin-top: 6px;
-      font-size: 15px;
+      padding-top: 12px;
+      color: #1a1a1a;
       font-weight: 700;
     }
 
-    .btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-bottom: 8px;
-      font-family: inherit;
-      transition: all 0.2s;
+    .summary-row strong {
+      color: #8b1a1a;
     }
 
     .btn-primary {
+      width: 100%;
+      padding: 14px;
+      border: none;
       background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
       color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 16px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(139, 26, 26, 0.2);
     }
 
-    .btn-primary:active { transform: scale(0.98); }
-
-    .btn-secondary {
-      background: #f5f5f5;
-      color: #1a1a1a;
-      border: 1px solid #e8e8e8;
-    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0); }
 
     .form-group {
       margin-bottom: 12px;
@@ -430,176 +482,258 @@
     .form-group label {
       display: block;
       font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
       font-weight: 600;
-      margin-bottom: 4px;
     }
 
-    .form-group input,
-    .form-group select {
+    .form-group input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #e8e8e8;
-      border-radius: 8px;
+      border-radius: 10px;
+      background: white;
+      color: #1a1a1a;
       font-size: 14px;
+      transition: all 0.2s;
       font-family: inherit;
     }
 
-    .empty-cart {
-      text-align: center;
-      padding: 40px 20px;
+    .form-group input:focus {
+      outline: none;
+      border-color: #8b1a1a;
+      box-shadow: 0 0 8px rgba(139, 26, 26, 0.15);
     }
-
-    .empty-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.6; }
-    .empty-text { color: #999; font-size: 14px; }
 
     .toast {
       position: fixed;
       bottom: 80px;
       left: 16px;
       right: 16px;
-      background: #1a1a1a;
-      color: white;
+      background: white;
+      border: 1px solid #e8e8e8;
+      color: #8b1a1a;
       padding: 12px 16px;
       border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      z-index: 400;
-      animation: slideInUp 0.3s ease-out;
+      z-index: 2000;
+      animation: toastSlide 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    @keyframes slideInUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    @keyframes toastSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: white;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      justify-content: space-around;
+      padding-bottom: 16px;
+      padding-top: 8px;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+      flex: 1;
+    }
+
+    .nav-btn:hover { color: #8b1a1a; }
+    .nav-btn.active { color: #8b1a1a; }
+
+    .nav-icon {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 599px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 400px) {
+      .hero h2 { font-size: 24px; }
+      .logo { font-size: 18px; }
+      .modal-content { max-height: 90vh; }
     }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
-    <div class="logo">🥩 Мясорубка</div>
+    <div class="logo">🔪 МЯСОРУБКА</div>
     <div class="header-buttons">
       <button class="btn-icon cart" onclick="openCart()">
         🛒
-        <span class="badge" id="cartBadge" style="display:none;" onclick="event.stopPropagation();">0</span>
+        <div class="badge" id="cartBadge"></div>
       </button>
     </div>
   </header>
 
-  <!-- HERO -->
-  <div class="hero">
-    <h2>Свежие деликатесы 🔥</h2>
-    <p>Натуральные копчёности с доставкой в Самару</p>
-  </div>
-
-  <!-- CONTENT -->
   <div class="content">
-    <!-- SEARCH -->
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Поиск товаров..." onkeyup="searchProducts()">
+    <!-- Shop Tab -->
+    <div id="shopTab" class="tab-content active">
+      <div class="hero">
+        <div class="hero-content">
+          <h2>Жарко и мясно</h2>
+          <p>Свежие деликатесы прямо с завода на вашу кухню 🍖</p>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Поиск..." oninput="searchProducts()">
+      </div>
+
+      <div class="categories">
+        <button class="cat-btn active" onclick="filterCategory('all')">Все</button>
+        <button class="cat-btn" onclick="filterCategory('sausages')">Колбасы</button>
+        <button class="cat-btn" onclick="filterCategory('jerky')">Джерки</button>
+        <button class="cat-btn" onclick="filterCategory('specialty')">Деликатесы</button>
+      </div>
+
+      <div class="grid" id="grid"></div>
     </div>
 
-    <!-- CATEGORIES -->
-    <div class="categories">
-      <button class="cat-btn active" onclick="filterCategory('all')">Все</button>
-      <button class="cat-btn" onclick="filterCategory('kopchyonoe')">Копчёное</button>
-      <button class="cat-btn" onclick="filterCategory('rulety')">Рулеты</button>
-      <button class="cat-btn" onclick="filterCategory('djerki')">Джерки</button>
-      <button class="cat-btn" onclick="filterCategory('kolbasy')">Колбасы</button>
-    </div>
+    <!-- Recipes Tab -->
+    <div id="recipesTab" class="recipes-container">
+      <div class="hero">
+        <div class="hero-content">
+          <h2>Рецепты & Сочетания</h2>
+          <p>Идеальные комбо для вашего стола ✨</p>
+        </div>
+      </div>
 
-    <!-- GRID -->
-    <div class="grid" id="grid"></div>
+      <div id="recipesList"></div>
+    </div>
   </div>
 
-  <!-- FOOTER NAV -->
-  <footer>
-    <button class="nav-btn active" onclick="showTab('shop')">
-      <span class="nav-icon">🛍️</span>
-      Магазин
-    </button>
-    <button class="nav-btn" onclick="showTab('orders')">
-      <span class="nav-icon">📦</span>
-      Заказы
-    </button>
-    <button class="nav-btn" onclick="showTab('profile')">
-      <span class="nav-icon">👤</span>
-      Профиль
-    </button>
-  </footer>
-
-  <!-- CART MODAL -->
-  <div class="modal" id="cartModal">
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <span>Ваша корзина</span>
-        <button class="close-btn" onclick="closeCart()">✕</button>
-      </div>
+      <button class="modal-close" onclick="closeCart()">✕</button>
+      <h3 style="margin-bottom: 16px; color: white;">Корзина 🛒</h3>
       <div id="cartItems"></div>
       <div id="cartSummary"></div>
-      <button class="btn btn-primary" onclick="checkout()">Оформить заказ</button>
-      <button class="btn btn-secondary" onclick="closeCart()">Продолжить покупки</button>
+      <button class="btn-primary" onclick="checkout()">Оформить заказ</button>
     </div>
   </div>
 
-  <!-- CHECKOUT MODAL -->
-  <div class="modal" id="checkoutModal">
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <span>Оформление</span>
-        <button class="close-btn" onclick="closeCheckout()">✕</button>
-      </div>
-      <form onsubmit="submitOrder(event)">
+      <button class="modal-close" onclick="closeCheckout()">✕</button>
+      <h3 style="margin-bottom: 16px; color: white;">Оформление заказа</h3>
+      <form onsubmit="submitOrder(e)">
         <div class="form-group">
-          <label>Имя *</label>
-          <input type="text" required placeholder="Иван Сидоров">
+          <label>Ваше имя</label>
+          <input type="text" required>
         </div>
         <div class="form-group">
-          <label>Телефон *</label>
-          <input type="tel" id="phoneInput" required placeholder="+7 (999) 123-45-67">
+          <label>Телефон</label>
+          <input type="tel" id="phoneInput" required>
         </div>
         <div class="form-group">
-          <label>Адрес *</label>
-          <input type="text" required placeholder="Ул. Пушкина, дом 10">
+          <label>Адрес доставки</label>
+          <input type="text" required>
         </div>
-        <div class="form-group">
-          <label>Способ оплаты *</label>
-          <select required>
-            <option>Наличные при доставке</option>
-            <option>Оплатить онлайн</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Подтвердить</button>
+        <button type="submit" class="btn-primary">Отправить в Telegram</button>
       </form>
     </div>
   </div>
 
+  <!-- Navigation Bar -->
+  <div class="nav-bar">
+    <button class="nav-btn active" onclick="switchTab('shop')">
+      <div class="nav-icon">🛍️</div>
+      <div>Каталог</div>
+    </button>
+    <button class="nav-btn" onclick="switchTab('recipes')">
+      <div class="nav-icon">👨‍🍳</div>
+      <div>Рецепты</div>
+    </button>
+  </div>
+
   <script>
-    const MIN_ORDER = 1000;
-    const FREE_FROM = 2500;
+    const MIN_ORDER = 500;
     const DEL_COST = 200;
+    const FREE_FROM = 2000;
 
-    
-      const products = [
-  { id: 1, name: "Шейка свиная пряная", weight: "1 шт. (~400–500 г)", desc: "Сочная, ароматная шейка с правильным балансом специй", price: 138, img: "https://sun9-33.userapi.com/s/v1/ig2/MMK9uOSsh6jW0SohrdBk2MFL2pwAp0EZATorWtM3BX7tfRXtahZuUJ2r1YbOdHTyw7aiEU9sAja768JTw5EuP5Lp.jpg?quality=95&as=32x38,48x57,72x85,108x127,160x189,240x283,360x424,480x566,540x637,640x755,720x849,1080x1274,1280x1509,1440x1698,2171x2560&from=bu&u=RMz9IMcvUfbVN442_tFhs9BFbAxP5Ud2XOmyeyQz8W8&cs=540x0" },
-  { id: 2, name: "Ножка цыплёнка копчёная", weight: "1 шт. (~200–400 г)", desc: "Самая вкусная и сочная часть тушки", price: 89, img: "https://sun9-52.userapi.com/s/v1/ig2/KCyZy7EsKS7VSlaxEawOYiQRNpGk4Oh4e_fXcr-jTtQ6izOWexmIYe1YslFGRMDNWBs3Jr7iICY7BnI3zUNEs6qw.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=awMYMiivqgavq_IResOgRNzj1n7gxzd5NGqI01xX3p0&cs=540x0" },
-  { id: 3, name: "Перепел целый копчёный", weight: "1 шт.", desc: "Готовая копчёная птица премиум-класса", price: 350, img: "https://sun9-47.userapi.com/s/v1/ig2/QkocCq-Xz8AioCnGUwymW69xcG0RiecmxchIblpd_oWfvmaBYmU6Yz2wos0R4CsI8j-61xHsksC6kDMb4chvouIy.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480,720x540,1080x810,1280x960,1440x1080,2560x1920&from=bu&u=68pEt5VqOsGeJ5vctwRVMTEDydPA4f7sOJLLEfUofIU&cs=1080x0" },
-  { id: 4, name: "Орех из индейки с клюквой", weight: "1 шт. (~400–500 г)", desc: "Нежное бедро индейки с вяленой клюквой", price: 145, img: "https://sun9-42.userapi.com/s/v1/ig2/CP2_vP7XKT3fvKSh56rTrG-hKf6a4O7c6FuJyYJO7S-pmvt3qkw6DP2zhTet6oXjjxboGT0sUg978_Bs8Tqv4e-c.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x227,240x341,360x511,480x682,540x767,640x909,720x1022,1080x1533,1280x1817,1440x2045,1803x2560&from=bu&u=PvmwbWztinE0Pqc_tag79q_owU2K7pZlPWyLwAJpzPw&cs=540x0" },
-  { id: 5, name: "Дуэт в беконе", weight: "1 шт. (~400–500 г)", desc: "Свиная вырезка + куриное филе в хрустящем беконе", price: 135, img: "https://sun9-80.userapi.com/s/v1/ig2/C_c0FYAF4uhKcNEg1Ya5K1bChVbz3Pwaaztjr3EyDmbAjb3a7w_YXC2VT4bj6KklBVDr3pz2Nd_D71Y6IxtT1-Bu.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=U8JGKfalq3vQl3J3Dm7IbLrnknYBVS32gFnBsMc8mzk&cs=540x0" },
-  { id: 6, name: "Рулет Панчетта", weight: "1 шт. (~400–500 г)", desc: "Итальянский бекон из свиной грудинки", price: 105, img: "https://sun9-78.userapi.com/s/v1/ig2/ZxX1qh16D0EsfV0CHPHjOaArr0fXfsaWRciRNOm9s72zxp02tAQOIn5IDOy2F0nkPwn0WuQuDtjHVZsj9TM27HmM.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=EicW6j8guDdoWYjx_sIqEBeqAKT5BDXePq5iHoYmXBw&cs=540x0" },
-  { id: 7, name: "Куриная грудка сырокопчёная", weight: "1 шт. (от 200 г)", desc: "Яркий сочный вкус и аппетитный аромат пряностей и копчения", price: 120, img: "https://sun9-21.userapi.com/s/v1/ig2/XhN8JnwC5CpMbU5Mma19YbXTRYV1WlG7odAO_qpU9phTDGjaUg-kx5fwCxopIEwhsyZfqi6VLvnuvaqL2k_xEXkp.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x226,240x339,360x509,480x679,540x764,640x905,720x1018,1080x1528,1280x1810,1440x2037,1810x2560&from=bu&u=hPmM8-mltV5YRLA6igmsJGoXLFeefocvEb8PuikeWtE&cs=540x0" },
-  { id: 8, name: "Вырезка свиная варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Нежная вырезка с чесноком, имбирём и ароматными специями", price: 106, img: "https://sun9-54.userapi.com/s/v1/ig2/fEiWk-OrclsKLmQ1eGXk4nqLlb8WLEpsJ36jslwQ5XFqo8-xUp0vefeq8aICh4PaD-FeUXovQ7UMS_EbgicxLTnN.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=tVWa9Mb7wi3P_nlAqawxcjl319-2Wsb36tKzbPOb-S8&cs=540x0" },
-  { id: 9, name: "Джерки", weight: "1 шт. (~100 г)", desc: "Джерки из свинины — одна из лучших закусок в мире", price: 300, img: "https://sun9-6.userapi.com/s/v1/ig2/xj8JtnKcUrpTbfb0zh3yb1ude5AGy7yKTJK0Rzjft_RCwsx_UIYoEEkCOEabaUzWeG06ioubg79dEOdnH1uoZwBB.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=ShA4DhVJoWkIej-02SLyIPahDJRwflhWzsvlsLjR0A0&cs=540x0" },
-  { id: 10, name: "Пивчики", weight: "1 шт. (~100 г)", desc: "Подкопчёные пивчики — вкусная закуска для любого случая", price: 200, img: "https://sun9-76.userapi.com/s/v1/ig2/TvfhWOYT0RacWgoUbAB4NvnrP4rkm1ZsoQ7cFvfpmUVPzmFR77__lrLu9xrqBi3JnacjylPD9cS7k-OOJRyB-LF1.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=VkMK1WqHqhMIxsk3UdOqRfm_VJp_o57QeeY6XITpAYs&cs=540x0" },
-  { id: 11, name: "Говяжий язык варено-копчёный", weight: "1 шт. (~1 кг)", desc: "Нежный, праздничный деликатес для вашего стола", price: 2600, img: "https://sun9-50.userapi.com/s/v1/ig2/7XQVxGZPzjfFoDmqi1hfvp9l2Y9JIVFx1VjPY7LjVfUM6VwT3BkLGyP-o3Qc5m8fHR5-FysQ0lbTFf8JAusbO-MN.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480&from=bu&u=wWe4BAEm8d23HXsEMNRHUDpS16HIKHVhrqxFCZgFqxQ" },
-  { id: 12, name: "Паштет из печени индейки", weight: "1 шт. (~160 г)", desc: "Нежный, кремовый, тающий во рту. Без лишнего — только натуральный вкус.", price: 400, img: "https://sun9-3.userapi.com/s/v1/ig2/eZffHSn_1FULHUakpDm-_680P6I3TMlNqOpOSAS2bT0Du87_LMByeeFopM-mnYUcd8cMtTUXiK_XRRA1d0Z558az.jpg?quality=95&as=32x33,48x49,72x74,108x110,160x164,240x246,360x368,480x491,540x553,640x655,720x737,1080x1105,1251x1280&from=bu&u=BBFekzL5BE_w1bgepEEt_H1aMkd4Af8kz6bnJ4i0gCY&cs=540x0" },
-  { id: 13, name: "Пивчики Том Ям", weight: "1 шт. (~100 г)", desc: "Взрывной вкус Том Ям в наших пивчиках!", price: 200, img: "https://sun9-5.userapi.com/s/v1/ig2/dyQ4U28NkSRQfuyb2JT-GXYTVb3XL_eJzsxVZX0F-veSrxmjS5pKJzxK7oqlPyPEYV2ZfD4MOi0NlX6-PMWjuuqT.jpg?quality=95&as=32x34,48x52,72x77,108x116,160x172,240x258,360x387,480x516,540x581,640x688,720x774,1080x1162,1190x1280&from=bu&u=vL5CEvc_Dk9XvjJAqaxr1jXb_5Ogv1zWDRf312EPNhs&cs=540x0" },
-  { id: 14, name: "Джерки «Гранат-чили»", weight: "1 шт. (~100 г)", desc: "Куриная грудка с гранатовыми специями и перцем Чили", price: 250, img: "https://sun9-36.userapi.com/s/v1/ig2/jtNYQpS4Y3LLHASDZ2ZgD2YUd-b5MbwemtLVLWueN4IDNC_oebwmzFGGDn4fCoteSfUJGilc2K71hcB8YDERU3OS.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,960x1280&from=bu&u=5uPeeDygZUm3KePUcQPyCKQCFtLMTW71e_HcJTUuRhM&cs=540x0" },
-  { id: 15, name: "Грудинка варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Классическая закуска, приготовленная варкой и копчением", price: 98, img: "https://sun9-81.userapi.com/s/v1/ig2/jxQ7YaJJgHKQ8ds6ICzXHVxmZydCeavGnaPc4-9CGz1tXrND-M61mbi4u8MzqTxs1Mrb93lS14hYSqgjfNOY2KmA.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=FZMnHHe0q2WecBXk8rIamFFfW6owFO8VTJxGwafH5mI&cs=540x0" },
-  { id: 16, name: "Рёбра свиные", weight: "1 шт. (~300–500 г)", desc: "Горячее копчение, ароматное и сочное мясо на кости", price: 98, img: "https://sun9-68.userapi.com/s/v1/ig2/yOIOF-NMPwXtKlTBwDgQKYW6-WYM-gZvzBNGwGCby9QQLJQzfVLOwZ8DBPMLzji3rlM1VgCyoRODZRXaVkIbl6eM.jpg?quality=95&as=32x42,48x63,72x95,108x143,160x212,240x317,360x476,480x635,540x714,640x846,720x952,1080x1428,1280x1693,1440x1904,1936x2560&from=bu&u=XoBCHQnsjvExcVTFGXccNtPT8LMf0ltljyYvJfST5-U&cs=540x0" },
-  { id: 17, name: "Краковская колбаса", weight: "1 шт. (~400–500 г)", desc: "Отборная свинина и высококачественная говядина", price: 122, img: "https://sun9-55.userapi.com/s/v1/ig2/yN8sa5dqPdXeMzCl_7WE1kUFA5w-Jxp-PQsJV3OWLyHfmslofI007_R87qbCj-tgaaLCrkQADj0PNLwo9-3745Ah.jpg?quality=95&as=32x36,48x54,72x81,108x121,160x179,240x269,360x403,480x538,540x605,640x717,720x806,1080x1209,1280x1433,1440x1613,2286x2560&from=bu&u=ZWZwlsROrfhlmcz7FW-xQzK6lmgkkgs1fYlvJbpx0ro&cs=540x0" },
-  { id: 201, name: "Ассорти деликатесов", weight: "~150 г · 3–4 вида", desc: "В одной упаковке — лучшие вкусы нашего производства", price: 230, img: "https://sun9-30.userapi.com/s/v1/ig2/XNo2nB31zI2NPfrAV-xegEjLlRUxbOIDBew8B8aqySuWsU8jNOVCPO1yGoapYjFUkuEZXEFvVtxRubi1ySNIJjyb.jpg?quality=95&as=32x37,48x56,72x84,108x125,160x186,240x279,360x418,480x558,540x627,640x743,720x836,1080x1254,1280x1487,1440x1673,2204x2560&from=bu&u=mSjCsIzv1_A7ZeDSK1iYSxQAuk6qd35K5TNy0s5KsK4&cs=540x0" }
-];
+    const recipes = [
+      {
+        title: "Классический Завтрак",
+        desc: "Паштет + Колбаски + Хлеб = идеальное начало дня",
+        items: ["Паштет из печени индейки", "Пивчики"],
+        tip: "🍳 Разогрейте пивчики 2 минуты на сковороде"
+      },
+      {
+        title: "Мясная Закуска",
+        desc: "Идеально под пиво или к вечернему столу",
+        items: ["Джерки", "Краковская колбаса", "Грудинка"],
+        tip: "🍺 Нарежьте тонкими ломтиками для лучшего вкуса"
+      },
+      {
+        title: "Праздничный Стол",
+        desc: "Деликатесное ассорти для угощения гостей",
+        items: ["Говяжий язык варено-копчёный", "Ассорти деликатесов"],
+        tip: "🎉 Выложите красиво на доску, подавайте охлажденным"
+      },
+      {
+        title: "Быстрый Перекус",
+        desc: "Легко, вкусно, всё что нужно в пути",
+        items: ["Джерки «Гранат-чили»", "Пивчики Том Ям"],
+        tip: "⚡ Готово к употреблению, без приготовления"
+      },
+      {
+        title: "Семейный Ужин",
+        desc: "Сочная, мясистая, на всю семью",
+        items: ["Рёбра свиные", "Краковская колбаса"],
+        tip: "👨‍👩‍👧‍👦 Раскладывайте на гарниры и овощи"
+      },
+      {
+        title: "Экспресс-Стол",
+        desc: "Минимум времени на подготовку, максимум вкуса",
+        items: ["Паштет из печени индейки", "Джерки"],
+        tip: "⏱️ Подавайте сразу из упаковки с солеными крекерами"
+      }
+    ];
 
+    const products = [
+      { id: 1, name: "Колбаса Охотская", weight: "1 шт. (~400-500 г)", desc: "Отборная пикантная колбаса с дымком", price: 520, rating: 4.8, reviews: 124, category: 'sausages', badge: 'hit', img: "https://sun9-29.userapi.com/s/v1/ig2/0-2mxnKNlHKLbvjDKiSAokdPfEZ7uRO8nw5vKpH6kxMVGe5j1s8DxLjFG7sHYWB1zW6YmwQ3E3PnYzf-4IrBzPN.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&from=bu&u=p7Jq7-2E5BVcPUFh4u76LDNHvqyv1W9_q1s0b2eHQMQ&cs=540x0" },
+      { id: 2, name: "Паштет из печени говядины", weight: "1 шт. (~160 г)", desc: "Нежный паштет с пикантным привкусом", price: 380, rating: 4.7, reviews: 98, category: 'specialty', badge: 'new', img: "https://sun9-78.userapi.com/s/v1/ig2/Dn0dXUcKBvpxJzlz0gHJLcWWw_eQlJaIQV9V10dBKx6P0L7F8JkDvXxCIaS2gR5x-sMtMKCvw0PEzc8hxhQ8qX3j.jpg?quality=95&as=32x33,48x49,72x74,108x110,160x164,240x246,360x368,480x491,540x553,640x655,720x737,1080x1105,1251x1280&from=bu&u=wWe4BAEm8d23HXsEMNRHUDpS16HIKHVhrqxFCZgFqxQ&cs=540x0" },
+      { id: 3, name: "Салями с черным перцем", weight: "1 шт. (~400 г)", desc: "Острая салями для искушённых", price: 650, rating: 4.9, reviews: 156, category: 'sausages', img: "https://sun9-14.userapi.com/s/v1/ig2/MhXVHxKrW3EqCqqB5c93qcvuNnBq8PEP6Z6V-MhBUvIhZHRh3B1m3lfGXPJx2hLh6Bi4P06HOpAUEuWLRZw-3pwR.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&from=bu&u=lhfcMvIoC6dq0PZjfNfCjVAFfvMRvQiI0rUJQWNKkTg&cs=540x0" },
+      { id: 4, name: "Мортадель", weight: "1 шт. (~400 г)", desc: "Итальянская деликатесная колбаса", price: 480, rating: 4.6, reviews: 87, category: 'sausages', img: "https://sun9-16.userapi.com/s/v1/ig2/DJHK0ScjwYCURBl-O5P4bPGx9pOc9GZVDCr3LPhPMwzm0MH0o-aBIRJ-lPsJxg3HvWg8N9IfCNuDmgPZOL-8MwQp.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280,1440x1440&from=bu&u=BIKzGNPG3rYPxvXJzQYHBR2WUnlpSGYjz5rGDvVPqEg&cs=540x0" },
+      { id: 5, name: "Прошутто крудо", weight: "1 шт. (~80 г)", desc: "Воздушный, нежный, ароматный", price: 1200, rating: 5, reviews: 203, category: 'specialty', badge: 'hit', img: "https://sun9-48.userapi.com/s/v1/ig2/nLRpV7JH4Q3FPc9IfMOqVJNNOqD9-8DqIbdVLpVzWVBY_LIZ7PFD2FDYlrLLvDYZfzKfMgXXy6tQlYvJVCOO8aJP.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080&from=bu&u=V-H0_gWVTkBxKVGqwPPCwsV9VdRNFlDZvXJFfCZPl3A&cs=540x0" },
+      { id: 6, name: "Бастурма", weight: "1 шт. (~200 г)", desc: "Восточное чудо вкуса", price: 850, rating: 4.9, reviews: 142, category: 'specialty', img: "https://sun9-21.userapi.com/s/v1/ig2/nKZLCkqI8qJsUmIEg9_S9Nnqu4Dq9m-8XQNpHUKDSE8iXsXDkFLEaC3NKBvDzSxHKH_Df3OhPMvwABP7SB2FVjzA.jpg?quality=95&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480,540x540,640x640,720x720,1080x1080,1280x1280&from=bu&u=B2sRPGwm-KGH9YS9TQ4pHB2KvSc6fPXVvKyXEZHppWw&cs=540x0" },
+      { id: 7, name: "Окорок копчено-вареный", weight: "1 шт. (~1.5 кг)", desc: "Праздничный деликатес на столе", price: 2200, rating: 4.9, reviews: 178, category: 'specialty', img: "https://sun9-62.userapi.com/s/v1/ig2/mq-l_0Y3Z6bnWQZ37P9Zk8QR8FzS8BbCJwLALVLZL1aHWWJ4_gIMvI0D4DVeVpJCPPv0rxTqAUqMBR4PFEp8Cq1k.jpg?quality=95&as=32x42,48x63,72x95,108x143,160x212,240x317,360x476,480x635,540x714,640x846,720x952,1080x1428,1280x1693,1440x1904,2226x2967&from=bu&u=2tTNJj6aMvV9Y5k5d6GvHV-6zOXlCvVuBp2ZuXMBbwA&cs=540x0" },
+      { id: 8, name: "Копченое мясо на гриле", weight: "1 шт. (~300-400 г)", desc: "Ароматное, сочное, с дымком", price: 780, rating: 4.8, reviews: 134, category: 'jerky', img: "https://sun9-30.userapi.com/s/v1/ig2/pQfBwcNCuBzYrz4XzH-Aed7_Vy9yM7VjfCtvRxSYAH-5j0E8s3J5HYDNrNQnfk5RHG_4wdJ9iLj3xhYEHs0_xRjc.jpg?quality=95&as=32x42,48x63,72x95,108x143,160x212,240x317,360x476,480x635,540x714,640x846,720x952,1080x1428&from=bu&u=wWe4BAEm8d23HXsEMNRHUDpS16HIKHVhrqxFCZgFqxQ&cs=540x0" },
+      { id: 9, name: "Джерки", weight: "1 шт. (~100 г)", desc: "Джерки из свинины — одна из лучших закусок", price: 300, rating: 4.7, reviews: 112, category: 'jerky', img: "https://sun9-6.userapi.com/s/v1/ig2/xj8JtnKcUrpTbfb0zh3yb1ude5AGy7yKTJK0Rzjft_RCwsx_UIYoEEkCOEabaUzWeG06ioubg79dEOdnH1uoZwBB.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=ShA4DhVJoWkIej-02SLyIPahDJRwflhWzsvlsLjR0A0&cs=540x0" },
+      { id: 10, name: "Пивчики", weight: "1 шт. (~100 г)", desc: "Подкопчёные пивчики — вкусная закуска", price: 200, rating: 4.8, reviews: 98, category: 'jerky', img: "https://sun9-76.userapi.com/s/v1/ig2/TvfhWOYT0RacWgoUbAB4NvnrP4rkm1ZsoQ7cFvfpmUVPzmFR77__lrLu9xrqBi3JnacjylPD9cS7k-OOJRyB-LF1.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=VkMK1WqHqhMIxsk3UdOqRfm_VJp_o57QeeY6XITpAYs&cs=540x0" },
+      { id: 11, name: "Говяжий язык варено-копчёный", weight: "1 шт. (~1 кг)", desc: "Нежный, праздничный деликатес", price: 2600, rating: 5, reviews: 87, category: 'specialty', badge: 'hit', img: "https://sun9-50.userapi.com/s/v1/ig2/7XQVxGZPzjfFoDmqi1hfvp9l2Y9JIVFx1VjPY7LjVfUM6VwT3BkLGyP-o3Qc5m8fHR5-FysQ0lbTFf8JAusbO-MN.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480&from=bu&u=wWe4BAEm8d23HXsEMNRHUDpS16HIKHVhrqxFCZgFqxQ" },
+      { id: 12, name: "Паштет из печени индейки", weight: "1 шт. (~160 г)", desc: "Нежный, кремовый, тающий во рту", price: 400, rating: 4.8, reviews: 76, category: 'specialty', img: "https://sun9-3.userapi.com/s/v1/ig2/eZffHSn_1FUHakpDm-_680P6I3TMlNqOpOSAS2bT0Du87_LMByeeFopM-mnYUcd8cMtTUXiK_XRRA1d0Z558az.jpg?quality=95&as=32x33,48x49,72x74,108x110,160x164,240x246,360x368,480x491,540x553,640x655,720x737,1080x1105,1251x1280&from=bu&u=BBFekzL5BE_w1bgepEEt_H1aMkd4Af8kz6bnJ4i0gCY&cs=540x0" },
+      { id: 13, name: "Пивчики Том Ям", weight: "1 шт. (~100 г)", desc: "Взрывной вкус Том Ям в наших пивчиках!", price: 200, rating: 4.9, reviews: 65, category: 'jerky', img: "https://sun9-5.userapi.com/s/v1/ig2/dyQ4U28NkSRQfuyb2JT-GXYTVb3XL_eJzsxVZX0F-veSrxmjS5pKJzxK7oqlPyPEYV2ZfD4MOi0NlX6-PMWjuuqT.jpg?quality=95&as=32x34,48x52,72x77,108x116,160x172,240x258,360x387,480x516,540x581,640x688,720x774,1080x1162,1190x1280&from=bu&u=vL5CEvc_Dk9XvjJAqaxr1jXb_5Ogv1zWDRf312EPNhs&cs=540x0" },
+      { id: 14, name: "Джерки «Гранат-чили»", weight: "1 шт. (~100 г)", desc: "Куриная грудка с гранатовыми специями", price: 250, rating: 4.8, reviews: 54, category: 'jerky', img: "https://sun9-36.userapi.com/s/v1/ig2/jtNYQpS4Y3LLHASDZ2ZgD2YUd-b5MbwemtLVLWueN4IDNC_oebwmzFGGDn4fCoteSfUJGilc2K71hcB8YDERU3OS.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,960x1280&from=bu&u=5uPeeDygZUm3KePUcQPyCKQCFtLMTW71e_HcJTUuRhM&cs=540x0" },
+      { id: 15, name: "Грудинка варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Классическая закуска, приготовленная варкой", price: 98, rating: 4.7, reviews: 91, category: 'sausages', img: "https://sun9-81.userapi.com/s/v1/ig2/jxQ7YaJJgHKQ8ds6ICzXHVxmZydCeavGnaPc4-9CGz1tXrND-M61mbi4u8MzqTxs1Mrb93lS14hYSqgjfNOY2KmA.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=FZMnHHe0q2WecBXk8rIamFFfW6owFO8VTJxGwafH5mI&cs=540x0" },
+      { id: 16, name: "Рёбра свиные", weight: "1 шт. (~300–500 г)", desc: "Горячее копчение, ароматное и сочное", price: 98, rating: 4.9, reviews: 103, category: 'sausages', img: "https://sun9-68.userapi.com/s/v1/ig2/yIOF-NMPwXtKlTBwDgQKYW6-WYM-gZvzBNGwGCby9QQLJQzfVLOwZ8DBPMLzji3rlM1VgCyoRODZRXaVkIbl6eM.jpg?quality=95&as=32x42,48x63,72x95,108x143,160x212,240x317,360x476,480x635,540x714,640x846,720x952,1080x1428,1280x1693,1440x1904,1936x2560&from=bu&u=XoBCHQnsjvExcVTFGXccNtPT8LMf0ltljyYvJfST5-U&cs=540x0" },
+      { id: 17, name: "Краковская колбаса", weight: "1 шт. (~400–500 г)", desc: "Отборная свинина и высококачественная говядина", price: 122, rating: 4.8, reviews: 145, category: 'sausages', img: "https://sun9-55.userapi.com/s/v1/ig2/yN8sa5dqPdXeMzCl_7WE1kUFA5w-Jxp-PQsJV3OWLyHfmslofI007_R87qbCj-tgaaLCrkQADj0PNLwo9-3745Ah.jpg?quality=95&as=32x36,48x54,72x81,108x121,160x179,240x269,360x403,480x538,540x605,640x717,720x806,1080x1209,1280x1433,1440x1613,2286x2560&from=bu&u=ZWZwlsROrfhlmcz7FW-xQzK6lmgkkgs1fYlvJbpx0ro&cs=540x0" },
+      { id: 201, name: "Ассорти деликатесов", weight: "~150 г · 3–4 вида", desc: "В одной упаковке — лучшие вкусы производства", price: 230, rating: 4.9, reviews: 112, category: 'specialty', img: "https://sun9-30.userapi.com/s/v1/ig2/XNo2nB31zI2NPfrAV-xegEjLlRUxbOIDBew8B8aqySuWsU8jNOVCPO1yGoapYjFUkuEZXEFvVtxRubi1ySNIJjyb.jpg?quality=95&as=32x37,48x56,72x84,108x125,160x186,240x279,360x418,480x558,540x627,640x743,720x836,1080x1254,1280x1487,1440x1673,2204x2560&from=bu&u=mSjCsIzv1_A7ZeDSK1iYSxQAuk6qd35K5TNy0s5KsK4&cs=540x0" }
+    ];
 
     let cart = [];
     let currentFilter = 'all';
@@ -633,6 +767,22 @@
           </div>
         `;
       }).join('');
+    }
+
+    function renderRecipes() {
+      const recipesList = document.getElementById('recipesList');
+      recipesList.innerHTML = recipes.map((recipe, idx) => `
+        <div class="recipe-card">
+          <div class="recipe-title">${idx + 1}. ${recipe.title}</div>
+          <div class="recipe-desc">${recipe.desc}</div>
+          <div style="margin-bottom: 12px; font-size: 12px; color: #ff6b4a; line-height: 1.5;">
+            <strong>Продукты:</strong> ${recipe.items.join(', ')}
+          </div>
+          <div style="padding: 10px; background: rgba(255, 107, 74, 0.1); border-radius: 8px; font-size: 12px; color: #e8e8e8; border-left: 3px solid #ff6b4a;">
+            💡 ${recipe.tip}
+          </div>
+        </div>
+      `).join('');
     }
 
     function addToCart(id) {
@@ -735,11 +885,17 @@
       renderGrid(filtered);
     }
 
-    function showTab(tab) {
+    function switchTab(tab) {
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
       event.target.closest('.nav-btn').classList.add('active');
-      if (tab === 'orders') alert('История заказов появится здесь');
-      if (tab === 'profile') alert('Профиль появится здесь');
+      
+      document.querySelectorAll('.tab-content, .recipes-container').forEach(t => t.classList.remove('active'));
+      
+      if (tab === 'shop') {
+        document.getElementById('shopTab').classList.add('active');
+      } else if (tab === 'recipes') {
+        document.getElementById('recipesTab').classList.add('active');
+      }
     }
 
     function showToast(msg) {
@@ -758,6 +914,7 @@
 
     loadCart();
     renderGrid();
+    renderRecipes();
     updateUI();
   </script>
 </body>
