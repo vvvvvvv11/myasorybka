@@ -4,10 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>
   <meta name="theme-color" content="#8b1a1a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <title>Мясорубка | Приложение</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
     html, body { height: 100%; }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #f8f7f5;
@@ -16,6 +26,7 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      position: relative;
     }
 
     header {
@@ -28,11 +39,20 @@
       gap: 16px;
       flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      z-index: 100;
     }
 
-    .logo { font-weight: 900; font-size: 18px; }
+    .logo { 
+      font-weight: 900; 
+      font-size: 18px;
+      background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
     .header-buttons { display: flex; gap: 8px; }
+    
     .btn-icon {
       width: 40px;
       height: 40px;
@@ -42,10 +62,18 @@
       cursor: pointer;
       font-size: 18px;
       position: relative;
+      transition: all 0.2s;
     }
 
-    .btn-icon.cart { background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%); color: white; }
-    .btn-icon:active { transform: scale(0.95); }
+    .btn-icon:active { 
+      transform: scale(0.92);
+      background: #e8e8e8;
+    }
+
+    .btn-icon.cart { 
+      background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%); 
+      color: white;
+    }
 
     .badge {
       position: absolute;
@@ -67,6 +95,7 @@
       flex: 1;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      will-change: scroll-position;
     }
 
     .hero {
@@ -86,6 +115,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
+      transition: transform 0.3s ease;
     }
 
     .search-box input {
@@ -95,6 +125,13 @@
       border-radius: 10px;
       font-size: 14px;
       font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #8b1a1a;
+      box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.1);
     }
 
     .categories {
@@ -128,7 +165,10 @@
       border-color: transparent;
     }
 
-    .cat-btn:active { transform: scale(0.95); }
+    .cat-btn:active { 
+      transform: scale(0.95);
+      background: #f0f0f0;
+    }
 
     .grid {
       display: grid;
@@ -145,11 +185,13 @@
       border: 1px solid #e8e8e8;
       display: flex;
       flex-direction: column;
-      cursor: pointer;
       transition: all 0.2s;
     }
 
-    .product:active { transform: scale(0.98); }
+    .product:active { 
+      transform: scale(0.98);
+      transition: 0.05s;
+    }
 
     .product-img {
       width: 100%;
@@ -196,8 +238,22 @@
       flex-direction: column;
     }
 
-    .product-name { font-weight: 700; font-size: 13px; line-height: 1.3; margin-bottom: 4px; }
-    .product-desc { font-size: 11px; color: #999; margin-bottom: 6px; }
+    .product-name { 
+      font-weight: 700; 
+      font-size: 13px; 
+      line-height: 1.3; 
+      margin-bottom: 4px;
+    }
+    
+    .product-desc { 
+      font-size: 11px; 
+      color: #999; 
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
     .product-rating {
       font-size: 11px;
@@ -210,7 +266,7 @@
     .product-footer {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       margin-top: auto;
       border-top: 1px solid #e8e8e8;
       padding-top: 8px;
@@ -220,6 +276,37 @@
       font-size: 14px;
       font-weight: 900;
       color: #8b1a1a;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 2px;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      color: #8b1a1a;
+      transition: all 0.2s;
+    }
+
+    .qty-btn:active { transform: scale(0.9); }
+
+    .qty-value {
+      min-width: 20px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .add-btn {
@@ -236,7 +323,6 @@
     }
 
     .add-btn:active { transform: scale(0.9); }
-    .add-btn.in-cart { background: #fff3f3; color: #8b1a1a; }
 
     footer {
       position: fixed;
@@ -248,6 +334,7 @@
       display: flex;
       flex-shrink: 0;
       box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      z-index: 100;
     }
 
     .nav-btn {
@@ -266,12 +353,51 @@
       transition: all 0.2s;
     }
 
+    .nav-btn:active { transform: scale(0.95); }
+
     .nav-btn.active {
       color: #8b1a1a;
     }
 
     .nav-icon { font-size: 20px; }
 
+    /* FAB кнопка */
+    .fab {
+      position: fixed;
+      bottom: 80px;
+      right: 16px;
+      width: 56px;
+      height: 56px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+      font-size: 24px;
+      z-index: 200;
+      transition: all 0.2s;
+      display: none;
+    }
+
+    .fab:active { transform: scale(0.92); }
+    .fab .fab-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #e8350a;
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Модальные окна */
     .modal {
       display: none;
       position: fixed;
@@ -282,7 +408,6 @@
       background: rgba(0,0,0,0.5);
       z-index: 300;
       align-items: flex-end;
-      animation: slideIn 0.3s ease-out;
     }
 
     .modal.open { display: flex; }
@@ -301,6 +426,7 @@
       max-height: 90vh;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      animation: slideIn 0.3s ease-out;
     }
 
     .modal-header {
@@ -317,6 +443,7 @@
       border: none;
       font-size: 24px;
       cursor: pointer;
+      padding: 8px;
     }
 
     .cart-item {
@@ -349,10 +476,18 @@
       min-width: 0;
     }
 
-    .cart-item-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-    .cart-item-price { font-size: 12px; color: #999; }
+    .cart-item-name { 
+      font-weight: 700; 
+      font-size: 13px; 
+      margin-bottom: 2px;
+    }
+    
+    .cart-item-price { 
+      font-size: 12px; 
+      color: #999; 
+    }
 
-    .qty-control {
+    .cart-qty-control {
       display: flex;
       align-items: center;
       gap: 4px;
@@ -362,7 +497,7 @@
       padding: 2px;
     }
 
-    .qty-btn {
+    .cart-qty-btn {
       width: 24px;
       height: 24px;
       border: none;
@@ -373,7 +508,12 @@
       font-size: 14px;
     }
 
-    .qty-val { min-width: 18px; text-align: center; font-size: 12px; font-weight: 600; }
+    .cart-qty-val { 
+      min-width: 18px; 
+      text-align: center; 
+      font-size: 12px; 
+      font-weight: 600; 
+    }
 
     .summary {
       background: #f5f5f5;
@@ -410,12 +550,12 @@
       transition: all 0.2s;
     }
 
+    .btn:active { transform: scale(0.98); }
+
     .btn-primary {
       background: linear-gradient(135deg, #8b1a1a 0%, #a82020 100%);
       color: white;
     }
-
-    .btn-primary:active { transform: scale(0.98); }
 
     .btn-secondary {
       background: #f5f5f5;
@@ -442,6 +582,12 @@
       border-radius: 8px;
       font-size: 14px;
       font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #8b1a1a;
     }
 
     .empty-cart {
@@ -465,55 +611,77 @@
       font-weight: 600;
       z-index: 400;
       animation: slideInUp 0.3s ease-out;
+      text-align: center;
     }
 
     @keyframes slideInUp {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
+    @media (max-width: 380px) {
+      .logo { font-size: 16px; }
+      .hero h2 { font-size: 20px; }
+      .product-name { font-size: 12px; }
+      .price { font-size: 13px; }
+      .grid { gap: 8px; }
+    }
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
     <div class="logo">🥩 Мясорубка</div>
     <div class="header-buttons">
       <button class="btn-icon cart" onclick="openCart()">
         🛒
-        <span class="badge" id="cartBadge" style="display:none;" onclick="event.stopPropagation();">0</span>
+        <span class="badge" id="cartBadge" style="display:none;">0</span>
       </button>
     </div>
   </header>
 
-  <!-- HERO -->
   <div class="hero">
     <h2>Свежие деликатесы 🔥</h2>
     <p>Натуральные копчёности с доставкой в Самару</p>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
-    <!-- SEARCH -->
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Поиск товаров..." onkeyup="searchProducts()">
+    <div class="search-box" id="searchBox">
+      <input type="text" id="searchInput" placeholder="Поиск товаров...">
     </div>
 
-    <!-- CATEGORIES -->
     <div class="categories">
-      <button class="cat-btn active" onclick="filterCategory('all')">Все</button>
-      <button class="cat-btn" onclick="filterCategory('kopchyonoe')">Копчёное</button>
-      <button class="cat-btn" onclick="filterCategory('rulety')">Рулеты</button>
-      <button class="cat-btn" onclick="filterCategory('djerki')">Джерки</button>
-      <button class="cat-btn" onclick="filterCategory('kolbasy')">Колбасы</button>
+      <button class="cat-btn active" data-cat="all">Все</button>
+      <button class="cat-btn" data-cat="kopchyonoe">Копчёное</button>
+      <button class="cat-btn" data-cat="rulety">Рулеты</button>
+      <button class="cat-btn" data-cat="djerki">Джерки</button>
+      <button class="cat-btn" data-cat="kolbasy">Колбасы</button>
     </div>
 
-    <!-- GRID -->
     <div class="grid" id="grid"></div>
   </div>
 
-  
+  <!-- FAB кнопка -->
+  <button class="fab" id="fabCart" onclick="openCart()">
+    🛒
+    <span class="fab-badge" id="fabBadge" style="display: none;">0</span>
+  </button>
 
-  <!-- CART MODAL -->
+  <footer>
+    <button class="nav-btn active" data-tab="shop">
+      <span class="nav-icon">🏠</span>
+      <span>Магазин</span>
+    </button>
+    <button class="nav-btn" data-tab="orders" onclick="showTab('orders')">
+      <span class="nav-icon">📦</span>
+      <span>Заказы</span>
+    </button>
+    <button class="nav-btn" data-tab="profile" onclick="showTab('profile')">
+      <span class="nav-icon">👤</span>
+      <span>Профиль</span>
+    </button>
+  </footer>
+
+  <!-- Модалка корзины -->
   <div class="modal" id="cartModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -527,17 +695,17 @@
     </div>
   </div>
 
-  <!-- CHECKOUT MODAL -->
+  <!-- Модалка оформления -->
   <div class="modal" id="checkoutModal">
     <div class="modal-content">
       <div class="modal-header">
         <span>Оформление</span>
         <button class="close-btn" onclick="closeCheckout()">✕</button>
       </div>
-      <form onsubmit="submitOrder(event)">
+      <form id="orderForm">
         <div class="form-group">
           <label>Имя *</label>
-          <input type="text" required placeholder="Иван Сидоров">
+          <input type="text" id="customerName" required placeholder="Иван Сидоров">
         </div>
         <div class="form-group">
           <label>Телефон *</label>
@@ -545,11 +713,11 @@
         </div>
         <div class="form-group">
           <label>Адрес *</label>
-          <input type="text" required placeholder="Ул. Пушкина, дом 10">
+          <input type="text" id="customerAddress" required placeholder="Ул. Пушкина, дом 10">
         </div>
         <div class="form-group">
           <label>Способ оплаты *</label>
-          <select required>
+          <select id="paymentMethod" required>
             <option>Наличные при доставке</option>
             <option>Оплатить онлайн</option>
           </select>
@@ -564,43 +732,116 @@
     const FREE_FROM = 2500;
     const DEL_COST = 200;
 
-    
-      const products = [
-  { id: 1, name: "Шейка свиная пряная", weight: "1 шт. (~400–500 г)", desc: "Сочная, ароматная шейка с правильным балансом специй", price: 138, img: "https://sun9-33.userapi.com/s/v1/ig2/MMK9uOSsh6jW0SohrdBk2MFL2pwAp0EZATorWtM3BX7tfRXtahZuUJ2r1YbOdHTyw7aiEU9sAja768JTw5EuP5Lp.jpg?quality=95&as=32x38,48x57,72x85,108x127,160x189,240x283,360x424,480x566,540x637,640x755,720x849,1080x1274,1280x1509,1440x1698,2171x2560&from=bu&u=RMz9IMcvUfbVN442_tFhs9BFbAxP5Ud2XOmyeyQz8W8&cs=540x0" },
-  { id: 2, name: "Ножка цыплёнка копчёная", weight: "1 шт. (~200–400 г)", desc: "Самая вкусная и сочная часть тушки", price: 89, img: "https://sun9-52.userapi.com/s/v1/ig2/KCyZy7EsKS7VSlaxEawOYiQRNpGk4Oh4e_fXcr-jTtQ6izOWexmIYe1YslFGRMDNWBs3Jr7iICY7BnI3zUNEs6qw.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=awMYMiivqgavq_IResOgRNzj1n7gxzd5NGqI01xX3p0&cs=540x0" },
-  { id: 3, name: "Перепел целый копчёный", weight: "1 шт.", desc: "Готовая копчёная птица премиум-класса", price: 350, img: "https://sun9-47.userapi.com/s/v1/ig2/QkocCq-Xz8AioCnGUwymW69xcG0RiecmxchIblpd_oWfvmaBYmU6Yz2wos0R4CsI8j-61xHsksC6kDMb4chvouIy.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480,720x540,1080x810,1280x960,1440x1080,2560x1920&from=bu&u=68pEt5VqOsGeJ5vctwRVMTEDydPA4f7sOJLLEfUofIU&cs=1080x0" },
-  { id: 4, name: "Орех из индейки с клюквой", weight: "1 шт. (~400–500 г)", desc: "Нежное бедро индейки с вяленой клюквой", price: 145, img: "https://sun9-42.userapi.com/s/v1/ig2/CP2_vP7XKT3fvKSh56rTrG-hKf6a4O7c6FuJyYJO7S-pmvt3qkw6DP2zhTet6oXjjxboGT0sUg978_Bs8Tqv4e-c.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x227,240x341,360x511,480x682,540x767,640x909,720x1022,1080x1533,1280x1817,1440x2045,1803x2560&from=bu&u=PvmwbWztinE0Pqc_tag79q_owU2K7pZlPWyLwAJpzPw&cs=540x0" },
-  { id: 5, name: "Дуэт в беконе", weight: "1 шт. (~400–500 г)", desc: "Свиная вырезка + куриное филе в хрустящем беконе", price: 135, img: "https://sun9-80.userapi.com/s/v1/ig2/C_c0FYAF4uhKcNEg1Ya5K1bChVbz3Pwaaztjr3EyDmbAjb3a7w_YXC2VT4bj6KklBVDr3pz2Nd_D71Y6IxtT1-Bu.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=U8JGKfalq3vQl3J3Dm7IbLrnknYBVS32gFnBsMc8mzk&cs=540x0" },
-  { id: 6, name: "Рулет Панчетта", weight: "1 шт. (~400–500 г)", desc: "Итальянский бекон из свиной грудинки", price: 105, img: "https://sun9-78.userapi.com/s/v1/ig2/ZxX1qh16D0EsfV0CHPHjOaArr0fXfsaWRciRNOm9s72zxp02tAQOIn5IDOy2F0nkPwn0WuQuDtjHVZsj9TM27HmM.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=EicW6j8guDdoWYjx_sIqEBeqAKT5BDXePq5iHoYmXBw&cs=540x0" },
-  { id: 7, name: "Куриная грудка сырокопчёная", weight: "1 шт. (от 200 г)", desc: "Яркий сочный вкус и аппетитный аромат пряностей и копчения", price: 120, img: "https://sun9-21.userapi.com/s/v1/ig2/XhN8JnwC5CpMbU5Mma19YbXTRYV1WlG7odAO_qpU9phTDGjaUg-kx5fwCxopIEwhsyZfqi6VLvnuvaqL2k_xEXkp.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x226,240x339,360x509,480x679,540x764,640x905,720x1018,1080x1528,1280x1810,1440x2037,1810x2560&from=bu&u=hPmM8-mltV5YRLA6igmsJGoXLFeefocvEb8PuikeWtE&cs=540x0" },
-  { id: 8, name: "Вырезка свиная варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Нежная вырезка с чесноком, имбирём и ароматными специями", price: 106, img: "https://sun9-54.userapi.com/s/v1/ig2/fEiWk-OrclsKLmQ1eGXk4nqLlb8WLEpsJ36jslwQ5XFqo8-xUp0vefeq8aICh4PaD-FeUXovQ7UMS_EbgicxLTnN.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=tVWa9Mb7wi3P_nlAqawxcjl319-2Wsb36tKzbPOb-S8&cs=540x0" },
-  { id: 9, name: "Джерки", weight: "1 шт. (~100 г)", desc: "Джерки из свинины — одна из лучших закусок в мире", price: 300, img: "https://sun9-6.userapi.com/s/v1/ig2/xj8JtnKcUrpTbfb0zh3yb1ude5AGy7yKTJK0Rzjft_RCwsx_UIYoEEkCOEabaUzWeG06ioubg79dEOdnH1uoZwBB.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=ShA4DhVJoWkIej-02SLyIPahDJRwflhWzsvlsLjR0A0&cs=540x0" },
-  { id: 10, name: "Пивчики", weight: "1 шт. (~100 г)", desc: "Подкопчёные пивчики — вкусная закуска для любого случая", price: 200, img: "https://sun9-76.userapi.com/s/v1/ig2/TvfhWOYT0RacWgoUbAB4NvnrP4rkm1ZsoQ7cFvfpmUVPzmFR77__lrLu9xrqBi3JnacjylPD9cS7k-OOJRyB-LF1.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=VkMK1WqHqhMIxsk3UdOqRfm_VJp_o57QeeY6XITpAYs&cs=540x0" },
-  { id: 11, name: "Говяжий язык варено-копчёный", weight: "1 шт. (~1 кг)", desc: "Нежный, праздничный деликатес для вашего стола", price: 2600, img: "https://sun9-50.userapi.com/s/v1/ig2/7XQVxGZPzjfFoDmqi1hfvp9l2Y9JIVFx1VjPY7LjVfUM6VwT3BkLGyP-o3Qc5m8fHR5-FysQ0lbTFf8JAusbO-MN.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480&from=bu&u=wWe4BAEm8d23HXsEMNRHUDpS16HIKHVhrqxFCZgFqxQ" },
-  { id: 12, name: "Паштет из печени индейки", weight: "1 шт. (~160 г)", desc: "Нежный, кремовый, тающий во рту. Без лишнего — только натуральный вкус.", price: 400, img: "https://sun9-3.userapi.com/s/v1/ig2/eZffHSn_1FULHUakpDm-_680P6I3TMlNqOpOSAS2bT0Du87_LMByeeFopM-mnYUcd8cMtTUXiK_XRRA1d0Z558az.jpg?quality=95&as=32x33,48x49,72x74,108x110,160x164,240x246,360x368,480x491,540x553,640x655,720x737,1080x1105,1251x1280&from=bu&u=BBFekzL5BE_w1bgepEEt_H1aMkd4Af8kz6bnJ4i0gCY&cs=540x0" },
-  { id: 13, name: "Пивчики Том Ям", weight: "1 шт. (~100 г)", desc: "Взрывной вкус Том Ям в наших пивчиках!", price: 200, img: "https://sun9-5.userapi.com/s/v1/ig2/dyQ4U28NkSRQfuyb2JT-GXYTVb3XL_eJzsxVZX0F-veSrxmjS5pKJzxK7oqlPyPEYV2ZfD4MOi0NlX6-PMWjuuqT.jpg?quality=95&as=32x34,48x52,72x77,108x116,160x172,240x258,360x387,480x516,540x581,640x688,720x774,1080x1162,1190x1280&from=bu&u=vL5CEvc_Dk9XvjJAqaxr1jXb_5Ogv1zWDRf312EPNhs&cs=540x0" },
-  { id: 14, name: "Джерки «Гранат-чили»", weight: "1 шт. (~100 г)", desc: "Куриная грудка с гранатовыми специями и перцем Чили", price: 250, img: "https://sun9-36.userapi.com/s/v1/ig2/jtNYQpS4Y3LLHASDZ2ZgD2YUd-b5MbwemtLVLWueN4IDNC_oebwmzFGGDn4fCoteSfUJGilc2K71hcB8YDERU3OS.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,960x1280&from=bu&u=5uPeeDygZUm3KePUcQPyCKQCFtLMTW71e_HcJTUuRhM&cs=540x0" },
-  { id: 15, name: "Грудинка варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Классическая закуска, приготовленная варкой и копчением", price: 98, img: "https://sun9-81.userapi.com/s/v1/ig2/jxQ7YaJJgHKQ8ds6ICzXHVxmZydCeavGnaPc4-9CGz1tXrND-M61mbi4u8MzqTxs1Mrb93lS14hYSqgjfNOY2KmA.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=FZMnHHe0q2WecBXk8rIamFFfW6owFO8VTJxGwafH5mI&cs=540x0" },
-  { id: 16, name: "Рёбра свиные", weight: "1 шт. (~300–500 г)", desc: "Горячее копчение, ароматное и сочное мясо на кости", price: 98, img: "https://sun9-68.userapi.com/s/v1/ig2/yOIOF-NMPwXtKlTBwDgQKYW6-WYM-gZvzBNGwGCby9QQLJQzfVLOwZ8DBPMLzji3rlM1VgCyoRODZRXaVkIbl6eM.jpg?quality=95&as=32x42,48x63,72x95,108x143,160x212,240x317,360x476,480x635,540x714,640x846,720x952,1080x1428,1280x1693,1440x1904,1936x2560&from=bu&u=XoBCHQnsjvExcVTFGXccNtPT8LMf0ltljyYvJfST5-U&cs=540x0" },
-  { id: 17, name: "Краковская колбаса", weight: "1 шт. (~400–500 г)", desc: "Отборная свинина и высококачественная говядина", price: 122, img: "https://sun9-55.userapi.com/s/v1/ig2/yN8sa5dqPdXeMzCl_7WE1kUFA5w-Jxp-PQsJV3OWLyHfmslofI007_R87qbCj-tgaaLCrkQADj0PNLwo9-3745Ah.jpg?quality=95&as=32x36,48x54,72x81,108x121,160x179,240x269,360x403,480x538,540x605,640x717,720x806,1080x1209,1280x1433,1440x1613,2286x2560&from=bu&u=ZWZwlsROrfhlmcz7FW-xQzK6lmgkkgs1fYlvJbpx0ro&cs=540x0" },
-  { id: 201, name: "Ассорти деликатесов", weight: "~150 г · 3–4 вида", desc: "В одной упаковке — лучшие вкусы нашего производства", price: 230, img: "https://sun9-30.userapi.com/s/v1/ig2/XNo2nB31zI2NPfrAV-xegEjLlRUxbOIDBew8B8aqySuWsU8jNOVCPO1yGoapYjFUkuEZXEFvVtxRubi1ySNIJjyb.jpg?quality=95&as=32x37,48x56,72x84,108x125,160x186,240x279,360x418,480x558,540x627,640x743,720x836,1080x1254,1280x1487,1440x1673,2204x2560&from=bu&u=mSjCsIzv1_A7ZeDSK1iYSxQAuk6qd35K5TNy0s5KsK4&cs=540x0" }
-];
-
+    const products = [
+      { id: 1, name: "Шейка свиная пряная", weight: "1 шт. (~400–500 г)", desc: "Сочная, ароматная шейка с правильным балансом специй", price: 138, img: "https://sun9-33.userapi.com/s/v1/ig2/MMK9uOSsh6jW0SohrdBk2MFL2pwAp0EZATorWtM3BX7tfRXtahZuUJ2r1YbOdHTyw7aiEU9sAja768JTw5EuP5Lp.jpg?quality=95&as=32x38,48x57,72x85,108x127,160x189,240x283,360x424,480x566,540x637,640x755,720x849,1080x1274,1280x1509,1440x1698,2171x2560&from=bu&u=RMz9IMcvUfbVN442_tFhs9BFbAxP5Ud2XOmyeyQz8W8&cs=540x0", category: "kopchyonoe", rating: 4.5, reviews: 23 },
+      { id: 2, name: "Ножка цыплёнка копчёная", weight: "1 шт. (~200–400 г)", desc: "Самая вкусная и сочная часть тушки", price: 89, img: "https://sun9-52.userapi.com/s/v1/ig2/KCyZy7EsKS7VSlaxEawOYiQRNpGk4Oh4e_fXcr-jTtQ6izOWexmIYe1YslFGRMDNWBs3Jr7iICY7BnI3zUNEs6qw.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=awMYMiivqgavq_IResOgRNzj1n7gxzd5NGqI01xX3p0&cs=540x0", category: "kopchyonoe", rating: 4.7, reviews: 45 },
+      { id: 3, name: "Перепел целый копчёный", weight: "1 шт.", desc: "Готовая копчёная птица премиум-класса", price: 350, img: "https://sun9-47.userapi.com/s/v1/ig2/QkocCq-Xz8AioCnGUwymW69xcG0RiecmxchIblpd_oWfvmaBYmU6Yz2wos0R4CsI8j-61xHsksC6kDMb4chvouIy.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480,720x540,1080x810,1280x960,1440x1080,2560x1920&from=bu&u=68pEt5VqOsGeJ5vctwRVMTEDydPA4f7sOJLLEfUofIU&cs=1080x0", category: "kopchyonoe", rating: 4.9, reviews: 12, badge: "hit" },
+      { id: 4, name: "Орех из индейки с клюквой", weight: "1 шт. (~400–500 г)", desc: "Нежное бедро индейки с вяленой клюквой", price: 145, img: "https://sun9-42.userapi.com/s/v1/ig2/CP2_vP7XKT3fvKSh56rTrG-hKf6a4O7c6FuJyYJO7S-pmvt3qkw6DP2zhTet6oXjjxboGT0sUg978_Bs8Tqv4e-c.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x227,240x341,360x511,480x682,540x767,640x909,720x1022,1080x1533,1280x1817,1440x2045,1803x2560&from=bu&u=PvmwbWztinE0Pqc_tag79q_owU2K7pZlPWyLwAJpzPw&cs=540x0", category: "rulety", rating: 4.8, reviews: 34 },
+      { id: 5, name: "Дуэт в беконе", weight: "1 шт. (~400–500 г)", desc: "Свиная вырезка + куриное филе в хрустящем беконе", price: 135, img: "https://sun9-80.userapi.com/s/v1/ig2/C_c0FYAF4uhKcNEg1Ya5K1bChVbz3Pwaaztjr3EyDmbAjb3a7w_YXC2VT4bj6KklBVDr3pz2Nd_D71Y6IxtT1-Bu.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=U8JGKfalq3vQl3J3Dm7IbLrnknYBVS32gFnBsMc8mzk&cs=540x0", category: "rulety", rating: 4.6, reviews: 28 },
+      { id: 6, name: "Рулет Панчетта", weight: "1 шт. (~400–500 г)", desc: "Итальянский бекон из свиной грудинки", price: 105, img: "https://sun9-78.userapi.com/s/v1/ig2/ZxX1qh16D0EsfV0CHPHjOaArr0fXfsaWRciRNOm9s72zxp02tAQOIn5IDOy2F0nkPwn0WuQuDtjHVZsj9TM27HmM.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=EicW6j8guDdoWYjx_sIqEBeqAKT5BDXePq5iHoYmXBw&cs=540x0", category: "rulety", rating: 4.5, reviews: 19 },
+      { id: 7, name: "Куриная грудка сырокопчёная", weight: "1 шт. (от 200 г)", desc: "Яркий сочный вкус и аппетитный аромат пряностей и копчения", price: 120, img: "https://sun9-21.userapi.com/s/v1/ig2/XhN8JnwC5CpMbU5Mma19YbXTRYV1WlG7odAO_qpU9phTDGjaUg-kx5fwCxopIEwhsyZfqi6VLvnuvaqL2k_xEXkp.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x226,240x339,360x509,480x679,540x764,640x905,720x1018,1080x1528,1280x1810,1440x2037,1810x2560&from=bu&u=hPmM8-mltV5YRLA6igmsJGoXLFeefocvEb8PuikeWtE&cs=540x0", category: "kopchyonoe", rating: 4.7, reviews: 52 },
+      { id: 8, name: "Вырезка свиная варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Нежная вырезка с чесноком, имбирём и ароматными специями", price: 106, img: "https://sun9-54.userapi.com/s/v1/ig2/fEiWk-OrclsKLmQ1eGXk4nqLlb8WLEpsJ36jslwQ5XFqo8-xUp0vefeq8aICh4PaD-FeUXovQ7UMS_EbgicxLTnN.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=tVWa9Mb7wi3P_nlAqawxcjl319-2Wsb36tKzbPOb-S8&cs=540x0", category: "kopchyonoe", rating: 4.4, reviews: 31 },
+      { id: 9, name: "Джерки", weight: "1 шт. (~100 г)", desc: "Джерки из свинины — одна из лучших закусок в мире", price: 300, img: "https://sun9-6.userapi.com/s/v1/ig2/xj8JtnKcUrpTbfb0zh3yb1ude5AGy7yKTJK0Rzjft_RCwsx_UIYoEEkCOEabaUzWeG06ioubg79dEOdnH1uoZwBB.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=ShA4DhVJoWkIej-02SLyIPahDJRwflhWzsvlsLjR0A0&cs=540x0", category: "djerki", rating: 4.9, reviews: 67, badge: "hit" },
+      { id: 10, name: "Пивчики", weight: "1 шт. (~100 г)", desc: "Подкопчёные пивчики — вкусная закуска для любого случая", price: 200, img: "https://sun9-76.userapi.com/s/v1/ig2/TvfhWOYT0RacWgoUbAB4NvnrP4rkm1ZsoQ7cFvfpmUVPzmFR77__lrLu9xrqBi3JnacjylPD9cS7k-OOJRyB-LF1.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=VkMK1WqHqhMIxsk3UdOqRfm_VJp_o57QeeY6XITpAYs&cs=540x0", category: "djerki", rating: 4.6, reviews: 41 },
+      { id: 11, name: "Говяжий язык варено-копчёный", weight: "1 шт. (~1 кг)", desc: "Нежный, праздничный деликатес для вашего стола", price: 2600, img: "https://sun9-50.userapi.com/s/v1/ig2/7XQVxGZPzjfFoDmqi1hfvp9l2Y9JIVFx1VjPY7LjVfUM6VwT3BkLGyP-o3Qc5m8fHR5-FysQ0lbTFf8JAusbO-MN.jpg?quality=95&as=32x24,48x36,72x54,108x81,160x120,240x180,360x270,480x360,540x405,640x480&from=bu&u=wWe4BAEm8d23HXsEMNRHUDpS16HIKHVhrqxFCZgFqxQ", category: "kopchyonoe", rating: 4.8, reviews: 23 },
+      { id: 12, name: "Паштет из печени индейки", weight: "1 шт. (~160 г)", desc: "Нежный, кремовый, тающий во рту. Без лишнего — только натуральный вкус.", price: 400, img: "https://sun9-3.userapi.com/s/v1/ig2/eZffHSn_1FULHUakpDm-_680P6I3TMlNqOpOSAS2bT0Du87_LMByeeFopM-mnYUcd8cMtTUXiK_XRRA1d0Z558az.jpg?quality=95&as=32x33,48x49,72x74,108x110,160x164,240x246,360x368,480x491,540x553,640x655,720x737,1080x1105,1251x1280&from=bu&u=BBFekzL5BE_w1bgepEEt_H1aMkd4Af8kz6bnJ4i0gCY&cs=540x0", category: "kolbasy", rating: 4.7, reviews: 18, badge: "new" },
+      { id: 13, name: "Пивчики Том Ям", weight: "1 шт. (~100 г)", desc: "Взрывной вкус Том Ям в наших пивчиках!", price: 200, img: "https://sun9-5.userapi.com/s/v1/ig2/dyQ4U28NkSRQfuyb2JT-GXYTVb3XL_eJzsxVZX0F-veSrxmjS5pKJzxK7oqlPyPEYV2ZfD4MOi0NlX6-PMWjuuqT.jpg?quality=95&as=32x34,48x52,72x77,108x116,160x172,240x258,360x387,480x516,540x581,640x688,720x774,1080x1162,1190x1280&from=bu&u=vL5CEvc_Dk9XvjJAqaxr1jXb_5Ogv1zWDRf312EPNhs&cs=540x0", category: "djerki", rating: 4.8, reviews: 29, badge: "new" },
+      { id: 14, name: "Джерки «Гранат-чили»", weight: "1 шт. (~100 г)", desc: "Куриная грудка с гранатовыми специями и перцем Чили", price: 250, img: "https://sun9-36.userapi.com/s/v1/ig2/jtNYQpS4Y3LLHASDZ2ZgD2YUd-b5MbwemtLVLWueN4IDNC_oebwmzFGGDn4fCoteSfUJGilc2K71hcB8YDERU3OS.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,960x1280&from=bu&u=5uPeeDygZUm3KePUcQPyCKQCFtLMTW71e_HcJTUuRhM&cs=540x0", category: "djerki", rating: 4.9, reviews: 34 },
+      { id: 15, name: "Грудинка варено-копчёная", weight: "1 шт. (~400–500 г)", desc: "Классическая закуска, приготовленная варкой и копчением", price: 98, img: "https://sun9-81.userapi.com/s/v1/ig2/jxQ7YaJJgHKQ8ds6ICzXHVxmZydCeavGnaPc4-9CGz1tXrND-M61mbi4u8MzqTxs1Mrb93lS14hYSqgjfNOY2KmA.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=FZMnHHe0q2WecBXk8rIamFFfW6owFO8VTJxGwafH5mI&cs=540x0", category: "kopchyonoe", rating: 4.5, reviews: 56 },
+      { id: 16, name: "Рёбра свиные", weight: "1 шт. (~300–500 г)", desc: "Горячее копчение, ароматное и сочное мясо на кости", price: 98, img: "https://sun9-68.userapi.com/s/v1/ig2/yOIOF-NMPwXtKlTBwDgQKYW6-WYM-gZvzBNGwGCby9QQLJQzfVLOwZ8DBPMLzji3rlM1VgCyoRODZRXaVkIbl6eM.jpg?quality=95&as=32x42,48x63,72x95,108x143,160x212,240x317,360x476,480x635,540x714,640x846,720x952,1080x1428,1280x1693,1440x1904,1936x2560&from=bu&u=XoBCHQnsjvExcVTFGXccNtPT8LMf0ltljyYvJfST5-U&cs=540x0", category: "kopchyonoe", rating: 4.6, reviews: 38 },
+      { id: 17, name: "Краковская колбаса", weight: "1 шт. (~400–500 г)", desc: "Отборная свинина и высококачественная говядина", price: 122, img: "https://sun9-55.userapi.com/s/v1/ig2/yN8sa5dqPdXeMzCl_7WE1kUFA5w-Jxp-PQsJV3OWLyHfmslofI007_R87qbCj-tgaaLCrkQADj0PNLwo9-3745Ah.jpg?quality=95&as=32x36,48x54,72x81,108x121,160x179,240x269,360x403,480x538,540x605,640x717,720x806,1080x1209,1280x1433,1440x1613,2286x2560&from=bu&u=ZWZwlsROrfhlmcz7FW-xQzK6lmgkkgs1fYlvJbpx0ro&cs=540x0", category: "kolbasy", rating: 4.7, reviews: 42 },
+      { id: 201, name: "Ассорти деликатесов", weight: "~150 г · 3–4 вида", desc: "В одной упаковке — лучшие вкусы нашего производства", price: 230, img: "https://sun9-30.userapi.com/s/v1/ig2/XNo2nB31zI2NPfrAV-xegEjLlRUxbOIDBew8B8aqySuWsU8jNOVCPO1yGoapYjFUkuEZXEFvVtxRubi1ySNIJjyb.jpg?quality=95&as=32x37,48x56,72x84,108x125,160x186,240x279,360x418,480x558,540x627,640x743,720x836,1080x1254,1280x1487,1440x1673,2204x2560&from=bu&u=mSjCsIzv1_A7ZeDSK1iYSxQAuk6qd35K5TNy0s5KsK4&cs=540x0", category: "kolbasy", rating: 4.8, reviews: 25 }
+    ];
 
     let cart = [];
     let currentFilter = 'all';
+    let lastScroll = 0;
 
-    function loadCart() { cart = JSON.parse(localStorage.getItem('cart') || '[]'); }
-    function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); }
+    // Инициализация
+    function init() {
+      loadCart();
+      renderGrid();
+      updateUI();
+      setupEventListeners();
+      initModalSwipe();
+      setupAutoHideSearch();
+    }
+
+    function loadCart() { 
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+      } else {
+        cart = [];
+      }
+    }
+    
+    function saveCart() { 
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function setupEventListeners() {
+      // Поиск с debounce
+      let searchTimeout;
+      document.getElementById('searchInput').addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(searchProducts, 300);
+      });
+
+      // Категории
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => filterCategory(btn.dataset.cat));
+      });
+
+      // Форма заказа
+      document.getElementById('orderForm').addEventListener('submit', submitOrder);
+      
+      // Маска телефона
+      document.getElementById('phoneInput').addEventListener('input', formatPhone);
+    }
+
+    function setupAutoHideSearch() {
+      const content = document.querySelector('.content');
+      const searchBox = document.querySelector('.search-box');
+      
+      content.addEventListener('scroll', () => {
+        const currentScroll = content.scrollTop;
+        if (currentScroll > lastScroll && currentScroll > 50) {
+          searchBox.style.transform = 'translateY(-100%)';
+        } else {
+          searchBox.style.transform = 'translateY(0)';
+        }
+        lastScroll = currentScroll;
+      });
+    }
+
+    function initModalSwipe() {
+      const modal = document.getElementById('cartModal');
+      const modalContent = modal.querySelector('.modal-content');
+      let startY = 0;
+      
+      modalContent.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+      });
+      
+      modalContent.addEventListener('touchmove', (e) => {
+        const deltaY = e.touches[0].clientY - startY;
+        if (deltaY > 50 && modalContent.scrollTop === 0) {
+          closeCart();
+        }
+      });
+    }
 
     function renderGrid(items = products) {
       const grid = document.getElementById('grid');
       grid.innerHTML = items.map(p => {
-        const inCart = cart.find(i => i.id === p.id);
+        const cartItem = cart.find(i => i.id === p.id);
+        const quantity = cartItem ? cartItem.quantity : 0;
         const stars = '★'.repeat(Math.floor(p.rating)) + '☆'.repeat(5 - Math.floor(p.rating));
         const badge = p.badge ? `<div class="badge-${p.badge}">${p.badge === 'hit' ? '🔥 ХИТ' : '✨ НОВОЕ'}</div>` : '';
+        
         return `
-          <div class="product" onclick="addToCart(${p.id})">
+          <div class="product">
             <div class="product-img">
               <img src="${p.img}" alt="${p.name}" loading="lazy">
               ${badge}
@@ -611,9 +852,15 @@
               <div class="product-rating"><span class="stars">${stars}</span> (${p.reviews})</div>
               <div class="product-footer">
                 <div class="price">${p.price}₽</div>
-                <button class="add-btn ${inCart ? 'in-cart' : ''}" onclick="event.stopPropagation()">
-                  ${inCart ? '✓' : '+'}
-                </button>
+                ${quantity > 0 ? `
+                  <div class="quantity-controls">
+                    <button class="qty-btn" onclick="updateProductQuantity(${p.id}, -1, event)">−</button>
+                    <span class="qty-value">${quantity}</span>
+                    <button class="qty-btn" onclick="updateProductQuantity(${p.id}, 1, event)">+</button>
+                  </div>
+                ` : `
+                  <button class="add-btn" onclick="addToCart(${p.id}, event)">+</button>
+                `}
               </div>
             </div>
           </div>
@@ -621,31 +868,67 @@
       }).join('');
     }
 
-    function addToCart(id) {
+    function addToCart(id, event) {
+      if (event) event.stopPropagation();
+      
       const product = products.find(p => p.id === id);
       const item = cart.find(i => i.id === id);
-      if (item) item.quantity++;
-      else cart.push({...product, quantity: 1});
+      
+      if (item) {
+        item.quantity++;
+      } else {
+        cart.push({...product, quantity: 1});
+      }
+      
       saveCart();
       updateUI();
-      showToast(`${product.name} добавлен`);
+      showToast(`${product.name} добавлен в корзину`);
+      
+      // Вибрация
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(50);
+      }
+      
+      renderGrid(getFilteredProducts());
     }
 
-    function updateQty(id, delta) {
+    function updateProductQuantity(id, delta, event) {
+      if (event) event.stopPropagation();
+      
       const item = cart.find(i => i.id === id);
       if (!item) return;
+      
       item.quantity += delta;
-      if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
+      if (item.quantity <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
+      
       saveCart();
       updateUI();
+      renderGrid(getFilteredProducts());
     }
 
     function updateUI() {
       const total = cart.reduce((s, i) => s + i.quantity, 0);
       const badge = document.getElementById('cartBadge');
-      badge.style.display = total > 0 ? 'flex' : 'none';
-      badge.textContent = total;
-      renderCart();
+      const fabBadge = document.getElementById('fabBadge');
+      const fab = document.getElementById('fabCart');
+      
+      if (total > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = total;
+        fabBadge.style.display = 'flex';
+        fabBadge.textContent = total;
+        fab.style.display = 'flex';
+      } else {
+        badge.style.display = 'none';
+        fabBadge.style.display = 'none';
+        fab.style.display = 'none';
+      }
+      
+      if (document.getElementById('cartModal').classList.contains('open')) {
+        renderCart();
+      }
     }
 
     function renderCart() {
@@ -655,6 +938,7 @@
         document.getElementById('cartSummary').innerHTML = '';
         return;
       }
+      
       let total = 0;
       container.innerHTML = cart.map(item => {
         total += item.price * item.quantity;
@@ -665,14 +949,15 @@
               <div class="cart-item-name">${item.name}</div>
               <div class="cart-item-price">${item.price}₽</div>
             </div>
-            <div class="qty-control">
-              <button class="qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
-              <span class="qty-val">${item.quantity}</span>
-              <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+            <div class="cart-qty-control">
+              <button class="cart-qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
+              <span class="cart-qty-val">${item.quantity}</span>
+              <button class="cart-qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
             </div>
           </div>
         `;
       }).join('');
+      
       const del = total >= FREE_FROM ? 0 : DEL_COST;
       document.getElementById('cartSummary').innerHTML = `
         <div class="summary">
@@ -683,52 +968,135 @@
       `;
     }
 
-    function openCart() { document.getElementById('cartModal').classList.add('open'); renderCart(); }
-    function closeCart() { document.getElementById('cartModal').classList.remove('open'); }
-    function checkout() {
-      const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-      if (total < MIN_ORDER) { showToast(`Минимум ${MIN_ORDER}₽`); return; }
-      closeCart();
-      document.getElementById('checkoutModal').classList.add('open');
-    }
-    function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
-
-    function submitOrder(e) {
-      e.preventDefault();
-      const form = e.target;
-      const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-      const del = total >= FREE_FROM ? 0 : DEL_COST;
-      const msg = `Заказ от ${form[0].value}\n${form[1].value}\n${form[2].value}\nИтого: ${total + del}₽`;
-      window.open(`https://t.me/myasorubka63?text=${encodeURIComponent(msg)}`);
-      cart = [];
+    function updateQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
       saveCart();
       updateUI();
-      closeCheckout();
-      showToast('Заказ создан! ✅');
+      renderCart();
+      renderGrid(getFilteredProducts());
+    }
+
+    function getFilteredProducts() {
+      let filtered = products;
+      if (currentFilter !== 'all') {
+        filtered = products.filter(p => p.category === currentFilter);
+      }
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+      if (searchQuery) {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery));
+      }
+      return filtered;
     }
 
     function filterCategory(cat) {
       currentFilter = cat;
       document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
-      renderGrid(filtered);
+      document.querySelector(`.cat-btn[data-cat="${cat}"]`).classList.add('active');
+      renderGrid(getFilteredProducts());
     }
 
     function searchProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
-      renderGrid(filtered);
+      renderGrid(getFilteredProducts());
+    }
+
+    function openCart() { 
+      document.getElementById('cartModal').classList.add('open'); 
+      renderCart();
+    }
+    
+    function closeCart() { 
+      document.getElementById('cartModal').classList.remove('open'); 
+    }
+    
+    function checkout() {
+      const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      if (total < MIN_ORDER) { 
+        showToast(`Минимальная сумма заказа ${MIN_ORDER}₽`); 
+        return;
+      }
+      closeCart();
+      document.getElementById('checkoutModal').classList.add('open');
+    }
+    
+    function closeCheckout() { 
+      document.getElementById('checkoutModal').classList.remove('open'); 
+    }
+
+    function formatPhone(e) {
+      let x = e.target.value.replace(/\D/g, '');
+      if (x.length > 11) x = x.slice(0, 11);
+      if (x.startsWith('7')) x = x.substring(1);
+      if (x.startsWith('8')) x = x.substring(1);
+      
+      let formatted = '+7';
+      if (x.length > 0) formatted += ' (' + x.substring(0, Math.min(3, x.length));
+      if (x.length >= 4) formatted += ') ' + x.substring(3, 6);
+      if (x.length >= 7) formatted += '-' + x.substring(6, 8);
+      if (x.length >= 9) formatted += '-' + x.substring(8, 10);
+      e.target.value = formatted;
+    }
+
+    function validateOrder() {
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('phoneInput').value.replace(/\D/g, '');
+      const address = document.getElementById('customerAddress').value.trim();
+      
+      if (name.length < 2) {
+        showToast('Введите ваше имя');
+        return false;
+      }
+      if (phone.length !== 11) {
+        showToast('Введите корректный номер телефона');
+        return false;
+      }
+      if (address.length < 5) {
+        showToast('Введите полный адрес доставки');
+        return false;
+      }
+      return true;
+    }
+
+    function submitOrder(e) {
+      e.preventDefault();
+      
+      if (!validateOrder()) return;
+      
+      const name = document.getElementById('customerName').value;
+      const phone = document.getElementById('phoneInput').value;
+      const address = document.getElementById('customerAddress').value;
+      const payment = document.getElementById('paymentMethod').value;
+      
+      const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      const del = total >= FREE_FROM ? 0 : DEL_COST;
+      
+      const orderItems = cart.map(item => `${item.name} x${item.quantity} = ${item.price * item.quantity}₽`).join('\n');
+      const msg = `🛍️ НОВЫЙ ЗАКАЗ!\n\n👤 Имя: ${name}\n📱 Телефон: ${phone}\n📍 Адрес: ${address}\n💳 Оплата: ${payment}\n\n📦 Товары:\n${orderItems}\n\n💰 Сумма: ${total}₽\n🚚 Доставка: ${del === 0 ? 'Бесплатно' : del + '₽'}\n💎 Итого: ${total + del}₽`;
+      
+      window.open(`https://t.me/myasorubka63?text=${encodeURIComponent(msg)}`);
+      
+      cart = [];
+      saveCart();
+      updateUI();
+      closeCheckout();
+      renderGrid(getFilteredProducts());
+      showToast('Заказ успешно отправлен! ✅');
     }
 
     function showTab(tab) {
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      event.target.closest('.nav-btn').classList.add('active');
-      if (tab === 'orders') alert('История заказов появится здесь');
-      if (tab === 'profile') alert('Профиль появится здесь');
+      if (tab === 'orders') {
+        showToast('История заказов появится в следующей версии');
+      }
+      if (tab === 'profile') {
+        showToast('Личный кабинет появится в следующей версии');
+      }
     }
 
-    function showToast(msg) {
+    function showToast(msg, type = 'success') {
       const toast = document.createElement('div');
       toast.className = 'toast';
       toast.textContent = msg;
@@ -736,15 +1104,8 @@
       setTimeout(() => toast.remove(), 2000);
     }
 
-    document.getElementById('phoneInput')?.addEventListener('input', (e) => {
-      let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
-      if (!x[2] && x[1] !== '7') x[1] = '7';
-      e.target.value = !x[2] ? '+7' : '+7 (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
-    });
-
-    loadCart();
-    renderGrid();
-    updateUI();
+    // Запуск приложения
+    init();
   </script>
 </body>
 </html>
