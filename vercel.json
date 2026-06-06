@@ -1,7 +1,7 @@
 {
   "functions": {
-    "api/webhook.php": {
-      "runtime": "@vercel/php@0.7.2"
+    "api/*.php": {
+      "runtime": "vercel-php@0.7.3"
     }
   }
 }
