@@ -1,18 +1,27 @@
 {
   "functions": {
-    "api/*.php": {
-      "runtime": "vercel-php@0.7.1"
+    "api/webhook.php": {
+      "runtime": "vercel-php@0.6.0"
     }
   },
   "routes": [
     {
-      "src": "/api/webhook",
-      "dest": "/api/webhook.php",
-      "methods": ["POST", "GET"]
+      "src": "/api/webhook.php",
+      "dest": "/api/webhook.php"
     },
     {
       "src": "/(.*)",
       "dest": "/index.html"
+    }
+  ],
+  "builds": [
+    {
+      "src": "api/webhook.php",
+      "use": "@vercel/php"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
     }
   ]
 }
