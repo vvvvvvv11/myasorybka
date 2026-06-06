@@ -1,1 +1,13 @@
-{}
+{
+  "functions": {
+    "api/webhook.php": {
+      "runtime": "vercel-php@0.7.0"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*\\.php)$",
+      "dest": "/api/$1"
+    }
+  ]
+}
