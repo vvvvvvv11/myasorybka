@@ -5,8 +5,18 @@
 $botToken = '7755147962:AAGGFn1ZVautX47ul84VBm5fUVwUAF3qRpk';
 $apiUrl = "https://api.telegram.org/bot{$botToken}/";
 
+// ID чата для отправки заказов (ваш CHAT_ID)
+$adminChatId = '7900316924'; // ВАШ CHAT_ID
+
 // Получаем входящее обновление от Telegram
 $update = json_decode(file_get_contents('php://input'), true);
+
+// Проверяем, не пришел ли заказ с нашего сайта
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order'])) {
+    // Это заказ с сайта
+    handleOrder($_POST['order']);
+    exit;
+}
 
 if (!$update) {
     http_response_code(400);
@@ -24,6 +34,55 @@ if (isset($update['message'])) {
     if ($text === '/start') {
         sendWelcomeMessage($chatId, $firstName);
     }
+}
+
+/**
+ * Обрабатывает заказ с сайта
+ */
+function handleOrder($orderData) {
+    global $adminChatId, $apiUrl;
+    
+    // Декодируем JSON
+    $order = json_decode($orderData, true);
+    
+    if (!$order) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid order data']);
+        return;
+    }
+    
+    // Формируем красивое сообщение о заказе
+    $message = "🛍️ <b>НОВЫЙ ЗАКАЗ!</b>\n\n";
+    $message .= "👤 <b>Клиент:</b> {$order['name']}\n";
+    $message .= "📱 <b>Телефон:</b> {$order['phone']}\n";
+    $message .= "📍 <b>Адрес:</b> {$order['address']}\n";
+    $message .= "💳 <b>Оплата:</b> {$order['payment']}\n\n";
+    
+    $message .= "📦 <b>Состав заказа:</b>\n";
+    $message .= "────────────────\n";
+    
+    foreach ($order['items'] as $item) {
+        $message .= "• {$item['name']}\n";
+        $message .= "  {$item['quantity']} шт × {$item['price']}₽ = {$item['total']}₽\n";
+    }
+    
+    $message .= "────────────────\n\n";
+    $message .= "💰 <b>Сумма товаров:</b> {$order['subtotal']}₽\n";
+    $message .= "🚚 <b>Доставка:</b> " . ($order['delivery'] == 0 ? "Бесплатно 🎉" : $order['delivery'] . "₽") . "\n";
+    $message .= "💎 <b>ИТОГО К ОПЛАТЕ:</b> <b>{$order['total']}₽</b>\n\n";
+    
+    $message .= "⏰ " . date('d.m.Y H:i:s');
+    
+    // Отправляем заказ админу
+    $result = sendRequest('sendMessage', [
+        'chat_id' => $adminChatId,
+        'text' => $message,
+        'parse_mode' => 'HTML'
+    ]);
+    
+    // Отвечаем сайту, что заказ принят
+    http_response_code(200);
+    echo json_encode(['success' => true, 'message' => 'Order received']);
 }
 
 /**
